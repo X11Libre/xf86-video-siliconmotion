@@ -276,8 +276,7 @@ typedef struct
     Bool		interlaced;	/* True: Interlaced Video */
     XF86VideoAdaptorPtr	ptrAdaptor;	/* Pointer to VideoAdapter
 					   structure */
-    void (*BlockHandler)(int i, pointer blockData, pointer pTimeout,
-					 pointer pReadMask);
+    void (*BlockHandler)(BLOCKHANDLER_ARGS_DECL);
 #if SMI501_CLI_DEBUG
     /* SMI 501/502 Command List Interpreter */
     Bool		 batch_active;
