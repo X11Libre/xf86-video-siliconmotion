@@ -372,7 +372,7 @@ Bool SMI_I2CInit(ScrnInfoPtr pScrn);
 
 /* smi_accel.c */
 void SMI_AccelSync(ScrnInfoPtr pScrn);
-void SMI_GEReset(ScrnInfoPtr pScrn, int from_timeout, int line, char *file);
+void SMI_GEReset(ScrnInfoPtr pScrn, int from_timeout, int line, const char *file);
 void SMI_EngineReset(ScrnInfoPtr);
 void SMI_SetClippingRectangle(ScrnInfoPtr, int, int, int, int);
 void SMI_DisableClipping(ScrnInfoPtr);

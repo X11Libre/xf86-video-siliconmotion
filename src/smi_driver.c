@@ -1002,7 +1002,7 @@ SMI_LeaveVT(VT_FUNC_ARGS_DECL)
 static void
 SMI_DetectPanelSize(ScrnInfoPtr pScrn)
 {
-    char	*s;
+    const char	*s;
     int		 width, height;
     SMIPtr	 pSmi = SMIPTR(pScrn);
 
