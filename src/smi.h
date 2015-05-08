@@ -390,8 +390,8 @@ Bool SMI_HWCursorInit(ScreenPtr pScrn);
 /* smi_driver.c */
 Bool SMI_MapMem(ScrnInfoPtr pScrn);
 void SMI_UnmapMem(ScrnInfoPtr pScrn);
-void SMI_AdjustFrame(int scrnIndex, int x, int y, int flags);
-Bool SMI_SwitchMode(int scrnIndex, DisplayModePtr mode, int flags);
+void SMI_AdjustFrame(ADJUST_FRAME_ARGS_DECL);
+Bool SMI_SwitchMode(SWITCH_MODE_ARGS_DECL);
 void SMI_LoadPalette(ScrnInfoPtr pScrn, int numColors, int *indicies,
 		     LOCO *colors, VisualPtr pVisual);
 xf86MonPtr SMI_ddc1(ScrnInfoPtr pScrn);
