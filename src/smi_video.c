@@ -852,7 +852,7 @@ SMI_SetupVideo(ScreenPtr pScreen)
     ptrAdaptor->nEncodings = smiPortPtr->nenc;
     ptrAdaptor->pEncodings = smiPortPtr->enc;
 #if 0
-    /* aaa whats this? */
+    /* aaa what's this? */
 	for (i = 0; i < nElems(SMI_VideoEncodings); i++)
 	{
 		SMI_VideoEncodings[i].width = pSmi->lcdWidth;
@@ -921,7 +921,7 @@ SMI_SetupVideo(ScreenPtr pScreen)
 	    xvContrast   = MAKE_ATOM(XV_CONTRAST_NAME);
 	    
 	    xvInterlaced = MAKE_ATOM(XV_INTERLACED_NAME);
-	    DEBUG("SAA7111 intialized\n");
+	    DEBUG("SAA7111 initialized\n");
     
 	} else { 
 	    xf86DestroyI2CDevRec(&(smiPortPtr->I2CDev),FALSE);
@@ -1109,7 +1109,7 @@ SMI_PutVideo(
 
     /* cpr00:
        Bit 0      = 1: Video Capture Enable                     = enabled
-       Bit 8      = 0: Capture Control                          = continous
+       Bit 8      = 0: Capture Control                          = continuous
        Bit 9      = 0: Double Buffer Enable                     = s. below
        Bit 10     = 0: Interlace Data Capture                   = s. below
        Bit 13..11 = 0: Frame Skip Enable                        = s. below
@@ -1216,7 +1216,7 @@ SMI_PutVideo(
     DEBUG("xscale==%d yscale=%d width=%d height=%d\n",
 	  xscale, yscale, width, height);
 
-    /* aaa whats this                     ----------------------v ?
+    /* aaa what's this                    ----------------------v ?
     vid_address = (pPort->area->box.y1 * fbPitch) + ((y1 >> 16) * vid_pitch);*/
     vid_address = pPort->video_offset;
 
