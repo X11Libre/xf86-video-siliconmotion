@@ -182,7 +182,7 @@ typedef enum _VideoInput { VID_COMPOSITE, VID_SVIDEO } VideoInput;
 /* video input formats */
 
 typedef struct _VideoInputDataRec {
-    char* name;
+    const char* name;
 } VideoInputDataRec;
 
 static VideoInputDataRec VideoInputs[] = {
@@ -198,7 +198,7 @@ static VideoInputDataRec VideoInputs[] = {
 typedef enum _VideoNorm { PAL, NTSC, SECAM } VideoNorm;
 
 typedef struct _VideoNormDataRec {
-    char* name;
+    const char* name;
     unsigned long Wt;
     unsigned long Wa;
     unsigned long Ht;
@@ -509,9 +509,10 @@ static int
 SMI_AddEncoding(XF86VideoEncodingPtr enc, int i,
 		int norm, int input, int channel)
 {
-    char* norm_string;
-    char* input_string;
+    const char* norm_string;
+    const char* input_string;
     char channel_string[20];
+    char* name_string;
 
     ENTER();
 
@@ -519,16 +520,17 @@ SMI_AddEncoding(XF86VideoEncodingPtr enc, int i,
     input_string = VideoInputs[input].name;
     sprintf(channel_string, "%d", channel);
     enc[i].id     = i;
-    enc[i].name   = malloc(strlen(norm_string) +
+    name_string   = malloc(strlen(norm_string) +
 			   strlen(input_string) + 
 			   strlen(channel_string)+3);
-    if (NULL == enc[i].name)
+    if (NULL == name_string)
 	LEAVE(-1);
+    sprintf(name_string,"%s-%s-%s", norm_string, input_string, channel_string);
+    enc[i].name   = name_string;
 
     enc[i].width  = VideoNorms[norm].Wa;
     enc[i].height = VideoNorms[norm].Ha;
     enc[i].rate   = VideoNorms[norm].rate;
-    sprintf(enc[i].name,"%s-%s-%s", norm_string, input_string, channel_string);
 
     LEAVE(0);
 }
