@@ -799,7 +799,9 @@ SetAttrSAA7111(ScrnInfoPtr pScrn, int i, int value)
 	DEBUG("SAA7111 Registers\n");
 	for (j=0; j<32; j++) {
 	    DEBUG("%02X=%02X ", j, i2c_bytes[j]);
-	    if ((j&7) == 7) DEBUG("\n");
+	    if ((j&7) == 7) {
+		DEBUG("\n");
+	    }
 	}
     }
 
