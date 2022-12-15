@@ -552,25 +552,24 @@ SMI_BuildEncodings(SMI_PortPtr p)
     ENTER();
 
     /* allocate memory for encoding array */
-    p->enc = malloc(sizeof(XF86VideoEncodingRec) * N_ENCODINGS);
+    p->enc = calloc(N_ENCODINGS, sizeof(XF86VideoEncodingRec));
     if (NULL == p->enc)
 	goto fail;
-    memset(p->enc,0,sizeof(XF86VideoEncodingRec) * N_ENCODINGS);
+
     /* allocate memory for video norm array */
-    p->norm = malloc(sizeof(int) * N_ENCODINGS);
+    p->norm = calloc(N_ENCODINGS, sizeof(int));
     if (NULL == p->norm)
 	goto fail;
-    memset(p->norm,0,sizeof(int) * N_ENCODINGS);
+
     /* allocate memory for video input format array */
-    p->input = malloc(sizeof(int) * N_ENCODINGS);
+    p->input = calloc(N_ENCODINGS, sizeof(int));
     if (NULL == p->input)
 	goto fail;
-    memset(p->input,0,sizeof(int) * N_ENCODINGS);
+
     /* allocate memory for video channel number array */
-    p->channel = malloc(sizeof(int) * N_ENCODINGS);
+    p->channel = calloc(N_ENCODINGS, sizeof(int));
     if (NULL == p->channel)
 	goto fail;
-    memset(p->channel,0,sizeof(int) * N_ENCODINGS);
 
     /* fill arrays */
     p->nenc = 0;
