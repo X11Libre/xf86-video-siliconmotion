@@ -23,7 +23,7 @@
 # Initialize Autoconf
 AC_PREREQ([2.60])
 AC_INIT([xf86-video-siliconmotion],
-        [1.7.9],
+        [1.7.10],
         [https://gitlab.freedesktop.org/xorg/driver/xf86-video-siliconmotion/issues],
         [xf86-video-siliconmotion])
 
