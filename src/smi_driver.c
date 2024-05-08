@@ -266,7 +266,7 @@ SMI_GetRec(ScrnInfoPtr pScrn)
      * the allocation has already been done.
      */
     if (pScrn->driverPrivate == NULL) {
-	pScrn->driverPrivate = xnfcalloc(sizeof(SMIRec), 1);
+	pScrn->driverPrivate = XNFcallocarray(sizeof(SMIRec), 1);
     }
 
     LEAVE(TRUE);
@@ -404,13 +404,13 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
 
     if (IS_MSOC(pSmi)) {
 	pSmi->Save = SMI501_Save;
-	pSmi->save = xnfcalloc(sizeof(MSOCRegRec), 1);
-	pSmi->mode = xnfcalloc(sizeof(MSOCRegRec), 1);
+	pSmi->save = XNFcallocarray(sizeof(MSOCRegRec), 1);
+	pSmi->mode = XNFcallocarray(sizeof(MSOCRegRec), 1);
     }
     else {
 	pSmi->Save = SMILynx_Save;
-	pSmi->save = xnfcalloc(sizeof(SMIRegRec), 1);
-	pSmi->mode = xnfcalloc(sizeof(SMIRegRec), 1);
+	pSmi->save = XNFcallocarray(sizeof(SMIRegRec), 1);
+	pSmi->mode = XNFcallocarray(sizeof(SMIRegRec), 1);
     }
 
     if (flags & PROBE_DETECT) {

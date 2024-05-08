@@ -241,8 +241,8 @@ SMI_CrtcConfigResize(ScrnInfoPtr       pScrn,
 
 void
 SMI_CrtcFuncsInit_base(xf86CrtcFuncsPtr* crtcFuncs, SMICrtcPrivatePtr* crtcPriv){
-    *crtcFuncs = xnfcalloc(sizeof(xf86CrtcFuncsRec), 1);
-    *crtcPriv = xnfcalloc(sizeof(SMICrtcPrivateRec), 1);
+    *crtcFuncs = XNFcallocarray(sizeof(xf86CrtcFuncsRec), 1);
+    *crtcPriv = XNFcallocarray(sizeof(SMICrtcPrivateRec), 1);
 
     (*crtcFuncs)->dpms = SMI_CrtcDPMS;
     (*crtcFuncs)->lock = SMI_CrtcLock;

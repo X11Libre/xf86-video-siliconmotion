@@ -164,7 +164,7 @@ SMI_OutputDestroy(xf86OutputPtr output)
 void
 SMI_OutputFuncsInit_base(xf86OutputFuncsPtr* outputFuncs)
 {
-    *outputFuncs = xnfcalloc(sizeof(xf86OutputFuncsRec), 1);
+    *outputFuncs = XNFcallocarray(sizeof(xf86OutputFuncsRec), 1);
 
     (*outputFuncs)->create_resources = SMI_OutputCreateResources;
     (*outputFuncs)->mode_valid = SMI_OutputModeValid;
