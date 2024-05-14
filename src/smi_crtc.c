@@ -210,13 +210,6 @@ SMI_CrtcConfigResize(ScrnInfoPtr       pScrn,
 	pScrn->pScreen->ModifyPixmapHeader(pScrn->pScreen->GetScreenPixmap(pScrn->pScreen),
 					   -1,-1,-1,-1,-1, pSmi->FBBase + pSmi->FBOffset);
 
-#if (XORG_VERSION_CURRENT < XORG_VERSION_NUMERIC(1, 9, 99, 1, 0))
-	if(pScrn->pixmapPrivate.ptr)
-	    /* The pixmap devPrivate just set may be overwritten by
-	       xf86EnableDisableFBAccess */
-	    pScrn->pixmapPrivate.ptr = pSmi->FBBase + pSmi->FBOffset;
-#endif
-
 	/* Modify the screen pitch */
 	pScrn->displayWidth = aligned_pitch / pSmi->Bpp;
 	pScrn->pScreen->ModifyPixmapHeader(pScrn->pScreen->GetScreenPixmap(pScrn->pScreen),
