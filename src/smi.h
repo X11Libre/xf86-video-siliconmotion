@@ -49,9 +49,6 @@ authorization from the XFree86 Project and Silicon Motion.
 
 #include "fb.h"
 
-#ifdef HAVE_XAA_H
-#include "xaa.h"
-#endif
 #include "xf86fbman.h"
 #include "exa.h"
 #include "xf86cmap.h"
@@ -252,9 +249,6 @@ typedef struct
 					   printed using a counter */
 
     Bool		useBIOS;	/* Use BIOS for mode sets */
-#ifdef HAVE_XAA_H
-    XAAInfoRecPtr	XAAInfoRec;	/* XAA info Rec */
-#endif
 
     /* EXA */
     ExaDriverPtr	EXADriverPtr;
@@ -378,9 +372,6 @@ void SMI_EngineReset(ScrnInfoPtr);
 void SMI_SetClippingRectangle(ScrnInfoPtr, int, int, int, int);
 void SMI_DisableClipping(ScrnInfoPtr);
 CARD32 SMI_DEDataFormat(int bpp);
-
-/* smi_xaa.c */
-Bool SMI_XAAInit(ScreenPtr pScrn);
 
 /* smi_exa.c */
 Bool SMI_EXAInit(ScreenPtr pScrn);

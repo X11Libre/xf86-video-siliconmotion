@@ -144,11 +144,7 @@ SMI_OutputGetModes_native(xf86OutputPtr output)
     SMIPtr pSmi = SMIPTR(output->scrn);
     ENTER();
 
-#ifdef HAVE_XMODES
     LEAVE(xf86CVTMode(pSmi->lcdWidth, pSmi->lcdHeight, 60.0f, FALSE, FALSE));
-#else
-    LEAVE(NULL);
-#endif
 }
 
 static void

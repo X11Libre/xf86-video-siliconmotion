@@ -58,7 +58,7 @@ XORG_DRIVER_CHECK_EXT(XV, videoproto)
 XORG_DRIVER_CHECK_EXT(DPMSExtension, xextproto)
 
 # Obtain compiler/linker options for the driver dependencies
-PKG_CHECK_MODULES(XORG, [xorg-server >= 1.0.99.901 xproto fontsproto $REQUIRED_MODULES])
+PKG_CHECK_MODULES(XORG, [xorg-server >= 1.18.0 xproto fontsproto $REQUIRED_MODULES])
 PKG_CHECK_MODULES(XEXT, [xextproto >= 7.0.99.1],
                   HAVE_XEXTPROTO_71="yes"; AC_DEFINE(HAVE_XEXTPROTO_71, 1, [xextproto 7.1 available]),
                   HAVE_XEXTPROTO_71="no")
@@ -70,36 +70,12 @@ CPPFLAGS="$CPPFLAGS $XORG_CFLAGS"
 AC_CHECK_DECL(XSERVER_LIBPCIACCESS,
               [XSERVER_LIBPCIACCESS=yes],[XSERVER_LIBPCIACCESS=no],
               [#include "xorg-server.h"])
-AC_CHECK_HEADER(xf86Modes.h,
-		[XMODES=yes], [XMODES=no], [#include "xorg-server.h"])
 CPPFLAGS="$SAVE_CPPFLAGS"
 
 if test "x$XSERVER_LIBPCIACCESS" = xyes; then
     PKG_CHECK_MODULES([PCIACCESS], [pciaccess >= 0.8.0])
 fi
 AM_CONDITIONAL(XSERVER_LIBPCIACCESS, test "x$XSERVER_LIBPCIACCESS" = xyes)
-AM_CONDITIONAL(XMODES, test "x$XMODES" = xyes)
-
-if test "x$XMODES" = xyes; then
-    AC_DEFINE(HAVE_XMODES, 1, [X server has new mode code])
-fi
-AC_ARG_ENABLE(xaa,
-              AS_HELP_STRING([--enable-xaa],
-                             [Enable legacy X Acceleration Architecture (XAA) [default=auto]]),
-              [XAA="$enableval"],
-              [XAA=auto])
-if test "x$XAA" != xno; then
-        save_CFLAGS=$CFLAGS
-        save_CPPFLAGS=$CPPFLAGS
-        CFLAGS=$XORG_CFLAGS
-        CPPFLAGS="$XORG_CFLAGS"
-        AC_CHECK_HEADERS([xaa.h], XAA=yes, XAA=no)
-        CFLAGS=$save_CFLAGS
-        CPPFLAGS=$save_CPPFLAGS
-fi
-AC_MSG_CHECKING([whether to include XAA support])
-AM_CONDITIONAL(XAA, test "x$XAA" = xyes)
-AC_MSG_RESULT([$XAA])
 
 AC_SUBST([moduledir])
 

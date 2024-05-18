@@ -36,11 +36,6 @@ authorization from The XFree86 Project or Silicon Motion.
 #include "xf86int10.h"
 #include "vbe.h"
 
-#if GET_ABI_MAJOR(ABI_VIDEODRV_VERSION) < 6
-#include "xf86Resources.h"
-#include "xf86RAC.h"
-#endif
-
 #include "smi.h"
 #include "smi_501.h"
 #include "smilynx.h"
@@ -746,17 +741,17 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
 	from = X_DEFAULT;
 	if ((strptr = (char *)xf86GetOptValString(pSmi->Options,
 						  OPTION_ACCELMETHOD))) {
-	    if (!xf86NameCmp(strptr,"XAA")) {
-		from = X_CONFIG;
-		pSmi->useEXA = FALSE;
-	    } else if(!xf86NameCmp(strptr,"EXA")) {
+	    if (!xf86NameCmp(strptr,"EXA")) {
 		from = X_CONFIG;
 		pSmi->useEXA = TRUE;
+	    } else {
+		from = X_CONFIG;
+		pSmi->useEXA = FALSE;
 	    }
 	}
 
 	xf86DrvMsg(pScrn->scrnIndex, from, "Using %s acceleration architecture\n",
-		pSmi->useEXA ? "EXA" : "XAA");
+		pSmi->useEXA ? "EXA" : "no");
     }
 
     if (IS_MSOC(pSmi)) {
@@ -768,7 +763,7 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
 	    /* FIXME */
 	    if (pSmi->CSCVideo && pSmi->useEXA && pSmi->Dualhead) {
 		xf86DrvMsg(pScrn->scrnIndex, X_WARNING,
-			   "CSCVideo requires XAA or EXA in single head mode.\n");
+			   "CSCVideo requires EXA in single head mode.\n");
 		pSmi->CSCVideo = FALSE;
 	    }
 	}
@@ -875,13 +870,11 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
 	LEAVE(FALSE);
     }
 
-    /* Load XAA or EXA if needed */
+    /* Load EXA if needed */
     if (!pSmi->NoAccel) {
 	if (!pSmi->useEXA) {
-	    if (!xf86LoadSubModule(pScrn, "xaa")) {
-		xf86DrvMsg(pScrn->scrnIndex, X_WARNING, "No acceleration\n");
-		pSmi->NoAccel = 1;
-	    }
+	    xf86DrvMsg(pScrn->scrnIndex, X_WARNING, "No acceleration\n");
+	    pSmi->NoAccel = 1;
 	} else {
 	    XF86ModReqInfo req;
 	    int errmaj, errmin;
@@ -1714,8 +1707,7 @@ SMI_ScreenInit(SCREEN_INIT_ARGS_DECL)
     if(!SMI_HWInit(pScrn))
 	LEAVE(FALSE);
 
-    /* Unless using EXA, regardless or using XAA or not, needs offscreen
-     * management at least for video. */
+    /* Unless using EXA, needs offscreen management at least for video. */
     if (pSmi->NoAccel || !pSmi->useEXA) {
 	int		numLines;
 	BoxRec		AvailFBArea;
@@ -1738,7 +1730,7 @@ SMI_ScreenInit(SCREEN_INIT_ARGS_DECL)
     if (!pSmi->NoAccel) {
 	if (pSmi->useEXA && !SMI_EXAInit(pScreen))
 	    LEAVE(FALSE);
-	else if (!pSmi->useEXA && !SMI_XAAInit(pScreen))
+	else if (!pSmi->useEXA)
 	    LEAVE(FALSE);
     }
 
@@ -1750,9 +1742,7 @@ SMI_ScreenInit(SCREEN_INIT_ARGS_DECL)
 		   "Done writing mode.  Register dump:\n");
     SMI_PrintRegs(pScrn);
 
-#ifdef HAVE_XMODES
     xf86DiDGAInit(pScreen, (unsigned long)(pSmi->FBBase + pScrn->fbOffset));
-#endif
 
     /* Initialise cursor functions */
     miDCInitialize(pScreen, xf86GetPointerScreenFuncs());
@@ -1844,11 +1834,6 @@ SMI_CloseScreen(CLOSE_SCREEN_ARGS_DECL)
 	/* Restore console mode and unmap framebuffer */
         SMI_LeaveVT(VT_FUNC_ARGS);
 
-#ifdef HAVE_XAA_H
-    if (pSmi->XAAInfoRec != NULL) {
-	XAADestroyInfoRec(pSmi->XAAInfoRec);
-    }
-#endif
     if (pSmi->EXADriverPtr) {
 	exaDriverFini(pScreen);
 	pSmi->EXADriverPtr = NULL;

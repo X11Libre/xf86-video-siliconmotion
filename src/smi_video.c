@@ -519,17 +519,11 @@ SMI_AddEncoding(XF86VideoEncodingPtr enc, int i,
     norm_string = VideoNorms[norm].name;
     input_string = VideoInputs[input].name;
     snprintf(channel_string, sizeof(channel_string), "%d", channel);
-    enc[i].id     = i;
-#if GET_ABI_MAJOR(ABI_VIDEODRV_VERSION) >= 10
     if (Xasprintf(&name_string, "%s-%s-%s",
                   norm_string, input_string, channel_string) < 0)
         LEAVE(-1);
-#else
-    name_string = Xprintf("%s-%s-%s",
-                          norm_string, input_string, channel_string);
-    if (NULL == name_string)
-	LEAVE(-1);
-#endif
+
+    enc[i].id     = i;
     enc[i].name   = name_string;
 
     enc[i].width  = VideoNorms[norm].Wa;
