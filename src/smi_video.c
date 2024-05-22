@@ -930,13 +930,9 @@ SMI_SetupVideo(ScreenPtr pScreen)
 	}
     } else
 	smiPortPtr->I2CDev.SlaveAddr = 0;
-	
-#if defined(REGION_NULL)
+
     REGION_NULL(pScreen, &smiPortPtr->clip);
-#else
-    REGION_INIT(pScreen, &smiPortPtr->clip, NullBox, 0);
-#endif
-    
+
     pSmi->ptrAdaptor = ptrAdaptor;
     pSmi->BlockHandler = pScreen->BlockHandler;
     pScreen->BlockHandler = SMI_BlockHandler;
