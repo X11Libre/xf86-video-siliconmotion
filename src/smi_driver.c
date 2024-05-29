@@ -67,14 +67,14 @@ static const OptionInfoRec * SMI_AvailableOptions(int chipid, int busid);
 static void SMI_Identify(int flags);
 static Bool SMI_Probe(DriverPtr drv, int flags);
 static Bool SMI_PreInit(ScrnInfoPtr pScrn, int flags);
-static Bool SMI_EnterVT(VT_FUNC_ARGS_DECL);
-static void SMI_LeaveVT(VT_FUNC_ARGS_DECL);
-static Bool SMI_ScreenInit(SCREEN_INIT_ARGS_DECL);
+static Bool SMI_EnterVT(ScrnInfoPtr pScrn);
+static void SMI_LeaveVT(ScrnInfoPtr pScrn);
+static Bool SMI_ScreenInit(ScreenPtr pScreen, int argc, char **argv);
 static void SMI_DisableVideo(ScrnInfoPtr pScrn);
 static void SMI_EnableVideo(ScrnInfoPtr pScrn);
-static Bool SMI_CloseScreen(CLOSE_SCREEN_ARGS_DECL);
+static Bool SMI_CloseScreen(ScreenPtr pScreen);
 static Bool SMI_SaveScreen(ScreenPtr pScreen, int mode);
-static void SMI_FreeScreen(FREE_SCREEN_ARGS_DECL);
+static void SMI_FreeScreen(ScrnInfoPtr pScrn);
 static void SMI_ProbeDDC(ScrnInfoPtr pScrn, int index);
 static void SMI_DetectPanelSize(ScrnInfoPtr pScrn);
 static void SMI_DetectMCLK(ScrnInfoPtr pScrn);
@@ -902,9 +902,8 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
  */
 
 static Bool
-SMI_EnterVT(VT_FUNC_ARGS_DECL)
+SMI_EnterVT(ScrnInfoPtr pScrn)
 {
-    SCRN_INFO_PTR(arg);
     SMIPtr pSmi = SMIPTR(pScrn);
 
     ENTER();
@@ -947,9 +946,8 @@ SMI_EnterVT(VT_FUNC_ARGS_DECL)
  */
 
 static void
-SMI_LeaveVT(VT_FUNC_ARGS_DECL)
+SMI_LeaveVT(ScrnInfoPtr pScrn)
 {
-    SCRN_INFO_PTR(arg);
     SMIPtr	pSmi = SMIPTR(pScrn);
 
     ENTER();
@@ -1602,7 +1600,7 @@ SMI_UnmapMem(ScrnInfoPtr pScrn)
 /* This gets called at the start of each server generation. */
 
 static Bool
-SMI_ScreenInit(SCREEN_INIT_ARGS_DECL)
+SMI_ScreenInit(ScreenPtr pScreen, int argc, char **argv)
 {
     ScrnInfoPtr		pScrn = xf86ScreenToScrn(pScreen);
     SMIPtr		pSmi = SMIPTR(pScrn);
@@ -1809,7 +1807,7 @@ SMI_ScreenInit(SCREEN_INIT_ARGS_DECL)
  */
 
 static Bool
-SMI_CloseScreen(CLOSE_SCREEN_ARGS_DECL)
+SMI_CloseScreen(ScreenPtr pScreen)
 {
     ScrnInfoPtr	pScrn = xf86ScreenToScrn(pScreen);
     SMIPtr	pSmi = SMIPTR(pScrn);
@@ -1822,7 +1820,7 @@ SMI_CloseScreen(CLOSE_SCREEN_ARGS_DECL)
 
     if (pScrn->vtSema)
 	/* Restore console mode and unmap framebuffer */
-        SMI_LeaveVT(VT_FUNC_ARGS);
+        SMI_LeaveVT(pScrn);
 
     if (pSmi->EXADriverPtr) {
 	exaDriverFini(pScreen);
@@ -1845,15 +1843,14 @@ SMI_CloseScreen(CLOSE_SCREEN_ARGS_DECL)
 
     pScrn->vtSema = FALSE;
     pScreen->CloseScreen = pSmi->CloseScreen;
-    ret = (*pScreen->CloseScreen)(CLOSE_SCREEN_ARGS);
+    ret = (*pScreen->CloseScreen)(pScreen);
 
     LEAVE(ret);
 }
 
 static void
-SMI_FreeScreen(FREE_SCREEN_ARGS_DECL)
+SMI_FreeScreen(ScrnInfoPtr pScrn)
 {
-    SCRN_INFO_PTR(arg);
     SMI_FreeRec(pScrn);
 }
 
@@ -1874,9 +1871,8 @@ SMI_SaveScreen(ScreenPtr pScreen, int mode)
 }
 
 void
-SMI_AdjustFrame(ADJUST_FRAME_ARGS_DECL)
+SMI_AdjustFrame(ScrnInfoPtr pScrn, int x, int y)
 {
-    SCRN_INFO_PTR(arg);
     xf86CrtcConfigPtr crtcConf = XF86_CRTC_CONFIG_PTR(pScrn);
     xf86CrtcPtr compat_crtc = crtcConf->output[crtcConf->compat_output]->crtc;
 
@@ -1888,10 +1884,9 @@ SMI_AdjustFrame(ADJUST_FRAME_ARGS_DECL)
 }
 
 Bool
-SMI_SwitchMode(SWITCH_MODE_ARGS_DECL)
+SMI_SwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode)
 {
     Bool ret;
-    SCRN_INFO_PTR(arg);
     SMIPtr pSmi = SMIPTR(pScrn);
 
     ENTER();

@@ -590,7 +590,7 @@ SMILynx_ddc1(ScrnInfoPtr pScrn)
     tmp = VGAIN8_INDEX(pSmi, VGA_SEQ_INDEX, VGA_SEQ_DATA, 0x72);
     VGAOUT8_INDEX(pSmi, VGA_SEQ_INDEX, VGA_SEQ_DATA, 0x72, tmp | 0x20);
 
-    pMon = xf86PrintEDID(xf86DoEDID_DDC1(XF86_SCRN_ARG(pScrn),
+    pMon = xf86PrintEDID(xf86DoEDID_DDC1(pScrn,
 					 SMILynx_ddc1SetSpeed,
 					 SMILynx_ddc1Read));
     VGAOUT8_INDEX(pSmi, VGA_SEQ_INDEX, VGA_SEQ_DATA, 0x72, tmp);

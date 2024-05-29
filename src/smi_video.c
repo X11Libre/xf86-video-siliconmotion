@@ -2059,7 +2059,6 @@ SMI_DisplayVideo0730(
 static void
 SMI_BlockHandler(BLOCKHANDLER_ARGS_DECL)
 {
-    SCREEN_PTR(arg);
     ScrnInfoPtr	pScrn	= xf86ScreenToScrn(pScreen);
     SMIPtr	pSmi    = SMIPTR(pScrn);
     SMI_PortPtr pPort = (SMI_PortPtr) pSmi->ptrAdaptor->pPortPrivates[0].ptr;
