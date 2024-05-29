@@ -124,8 +124,6 @@ static void SMI_DisplayVideo0730(ScrnInfoPtr pScrn, int id, int offset,
 		short width, short height, int pitch, int x1, int y1, int x2, int y2,
 		BoxPtr dstBox, short vid_w, short vid_h, short drw_w, short drw_h);
 static void SMI_BlockHandler(BLOCKHANDLER_ARGS_DECL);
-/*static int SMI_SendI2C(ScrnInfoPtr pScrn, CARD8 device, char *devName,
-        SMI_I2CDataPtr i2cData);*/
 
 static void SMI_InitOffscreenImages(ScreenPtr pScreen);
 static void SMI_VideoSave(ScreenPtr pScreen, ExaOffscreenArea *area);
@@ -433,33 +431,6 @@ static I2CByte SAA7111VideoStd[3][8] = {
 };
 
 
-#if 0
-static I2CByte SAA7110InitData[] =
-{
-	/* Configuration */
-    0x00, 0x4C, 0x01, 0x3C, 0x02, 0x00, 0x03, 0xEF,
-    0x04, 0xBD, 0x05, 0xE2, 0x06, 0x00, 0x07, 0x00,
-    0x08, 0xF8, 0x09, 0xF8, 0x0A, 0x60, 0x0B, 0x60,
-    0x0C, 0x00, 0x0D, 0x80, 0x0E, 0x18, 0x0F, 0xD9,
-    0x10, 0x00, 0x11, 0x2B, 0x12, 0x40, 0x13, 0x40,
-    0x14, 0x42, 0x15, 0x1A, 0x16, 0xFF, 0x17, 0xDA,
-    0x18, 0xE6, 0x19, 0x90, 0x20, 0xD9, 0x21, 0x16,
-    0x22, 0x40, 0x23, 0x40, 0x24, 0x80, 0x25, 0x40,
-    0x26, 0x80, 0x27, 0x4F, 0x28, 0xFE, 0x29, 0x01,
-    0x2A, 0xCF, 0x2B, 0x0F, 0x2C, 0x03, 0x2D, 0x01,
-    0x2E, 0x83, 0x2F, 0x03, 0x30, 0x40, 0x31, 0x35,
-    0x32, 0x02, 0x33, 0x8C, 0x34, 0x03,
-
-	/* NTSC */
-    0x11, 0x2B, 0x0F, 0xD9,
-
-	/* RCA input connector */
-    0x06, 0x00, 0x0E, 0x18, 0x20, 0xD9, 0x21, 0x16,
-    0x22, 0x40, 0x2C, 0x03,
-
-};
-#endif
-
 static I2CByte SAA7111InitData[] =
 {
     0x11, 0x1D, /* 0D D0=1: automatic colour killer off
@@ -658,17 +629,6 @@ SMI_InitVideo(ScreenPtr pScreen)
  *  Video codec controls
  */
 
-#if 0
-/**
- * scales value value of attribute i to range min, max
- */
-static int
-Scale(int i, int value, int min, int max)
-{
-    return min + (value - SMI_VideoAttributes[i].min_value) * (max - min) /
-	(SMI_VideoAttributes[i].max_value - SMI_VideoAttributes[i].min_value);
-}
-#endif
 /**
  * sets video decoder attributes channel, encoding, brightness, contrast, saturation, hue
  */
@@ -693,11 +653,6 @@ SetAttr(ScrnInfoPtr pScrn, int i, int value)
     } else if (pPort->I2CDev.SlaveAddr == SAA7111) {
 	return SetAttrSAA7111(pScrn, i, value);
     }
-#if 0
-    else {
-	return XvBadAlloc;
-    }
-#endif
 
     return Success;
 }
@@ -852,14 +807,6 @@ SMI_SetupVideo(ScreenPtr pScreen)
     SMI_BuildEncodings(smiPortPtr);
     ptrAdaptor->nEncodings = smiPortPtr->nenc;
     ptrAdaptor->pEncodings = smiPortPtr->enc;
-#if 0
-    /* aaa what's this? */
-	for (i = 0; i < nElems(SMI_VideoEncodings); i++)
-	{
-		SMI_VideoEncodings[i].width = pSmi->lcdWidth;
-		SMI_VideoEncodings[i].height = pSmi->lcdHeight;
-	}
-#endif
 
     ptrAdaptor->nFormats = nElems(SMI_VideoFormats);
     ptrAdaptor->pFormats = SMI_VideoFormats;
@@ -901,13 +848,6 @@ SMI_SetupVideo(ScreenPtr pScreen)
     smiPortPtr->Attribute[XV_INTERLACED] = pSmi->interlaced;
     smiPortPtr->videoStatus = 0;
 
-#if 0
-    /* aaa does not work ? */
-    if (xf86I2CProbeAddress(pSmi->I2C, SAA7111))
-        LEAVE(NULL);
-    DEBUG("SAA7111 detected\n");
-#endif
-
     smiPortPtr->I2CDev.DevName = "SAA 7111A";
     smiPortPtr->I2CDev.SlaveAddr = SAA7111;
     smiPortPtr->I2CDev.pI2CBus = pSmi->I2C;
@@ -936,11 +876,11 @@ SMI_SetupVideo(ScreenPtr pScreen)
     pSmi->ptrAdaptor = ptrAdaptor;
     pSmi->BlockHandler = pScreen->BlockHandler;
     pScreen->BlockHandler = SMI_BlockHandler;
-    
+
     xvColorKey   = MAKE_ATOM(XV_COLORKEY_NAME);
     xvBrightness = MAKE_ATOM(XV_BRIGHTNESS_NAME);
     xvCapBrightness = MAKE_ATOM(XV_CAPTURE_BRIGHTNESS_NAME);
-    
+
     SMI_ResetVideo(pScrn);
 
     LEAVE(ptrAdaptor);
@@ -2090,50 +2030,6 @@ SMI_BlockHandler(BLOCKHANDLER_ARGS_DECL)
 	}
     }
 }
-
-#if 0
-static int
-SMI_SendI2C(
-	ScrnInfoPtr		pScrn,
-	CARD8			device,
-	char			*devName,
-	SMI_I2CDataPtr	i2cData
-)
-{
-    SMIPtr	pSmi = SMIPTR(pScrn);
-    I2CDevPtr	dev;
-    int		status = Success;
-
-    ENTER();
-
-    if (pSmi->I2C == NULL)
-	LEAVE(BadAlloc);
-
-    dev = xf86CreateI2CDevRec();
-    if (dev == NULL)
-	LEAVE(BadAlloc);
-
-    dev->DevName = devName;
-    dev->SlaveAddr = device;
-    dev->pI2CBus = pSmi->I2C;
-
-    if (!xf86I2CDevInit(dev))
-	status = BadAlloc;
-    else {
-	while (i2cData->address != 0xFF || i2cData->data != 0xFF) {	/* PDR#676 */
-	    if (!xf86I2CWriteByte(dev, i2cData->address, i2cData->data)) {
-		status = BadAlloc;
-		break;
-	    }
-	    i2cData++;
-	}
-    }
-
-    xf86DestroyI2CDevRec(dev, TRUE);
-
-    LEAVE(status);
-}
-#endif
 
 /******************************************************************************\
 **									      **

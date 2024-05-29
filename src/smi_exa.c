@@ -156,12 +156,6 @@ SMI_EXAInit(ScreenPtr pScreen)
     pSmi->EXADriverPtr->Solid = SMI_Solid;
     pSmi->EXADriverPtr->DoneSolid = SMI_DoneSolid;
 
-#if 0
-    /* DFS & UTS */
-    pSmi->EXADriverPtr->UploadToScreen = SMI_UploadToScreen;
-    pSmi->EXADriverPtr->DownloadFromScreen = SMI_DownloadFromScreen;
-#endif
-
     /* Composite */
     pSmi->EXADriverPtr->CheckComposite = SMI_CheckComposite;
     pSmi->EXADriverPtr->PrepareComposite = SMI_PrepareComposite;
