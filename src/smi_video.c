@@ -53,6 +53,11 @@ authorization from the XFree86 Project and silicon Motion.
 #include "config.h"
 #endif
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+#include <stdio.h>
+
 #include "smi.h"
 #include "smi_video.h"
 
@@ -519,7 +524,7 @@ SMI_AddEncoding(XF86VideoEncodingPtr enc, int i,
     norm_string = VideoNorms[norm].name;
     input_string = VideoInputs[input].name;
     snprintf(channel_string, sizeof(channel_string), "%d", channel);
-    if (Xasprintf(&name_string, "%s-%s-%s",
+    if (asprintf(&name_string, "%s-%s-%s",
                   norm_string, input_string, channel_string) < 0)
         LEAVE(-1);
 
