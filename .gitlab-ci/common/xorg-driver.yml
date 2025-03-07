@@ -1,17 +1,16 @@
-# version 0.1.19
 variables:
-    DEBIAN_VERSION:   'bullseye-slim'
-    DEBIAN_TAG:       "2024-06-06.09"
+    DEBIAN_VERSION:   'bookworm-slim'
+    DEBIAN_TAG:       "2025-03-07.01"
     DEBIAN_EXEC:      'bash .gitlab-ci/common/debian/image-install.sh'
     DEBIAN_SKIP:      "false" # to enable, it has to be litterally "true"
 
-    FREEBSD_TAG:      '2024-06-06.06'
-    FREEBSD_VERSION:  '14.0'
+    FREEBSD_TAG:      '2025-03-07.01'
+    FREEBSD_VERSION:  '14.2'
 # image is yet too small for that - need a more complicated way :(
 #    FREEBSD_EXEC:     "bash .gitlab-ci/common/freebsd/image-install.sh"
     FREEBSD_SKIP:     "false" # to enable, it has to be litterally "true"
 
-.templates_sha: &template_sha bc70242ffb8402243e934659ecc1a2d1c89eca2b # see https://docs.gitlab.com/ee/ci/yaml/#includefile
+.templates_sha: &template_sha ef5e4669b7500834a17ffe9277e15fbb6d977fff # see https://docs.gitlab.com/ee/ci/yaml/#includefile
 
 include:
     - project:  'freedesktop/ci-templates'
