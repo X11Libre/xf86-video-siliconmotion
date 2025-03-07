@@ -1,11 +1,12 @@
+# version 0.1.20
 variables:
-    DEBIAN_VERSION:   'bookworm-slim'
-    DEBIAN_TAG:       "2025-03-07.01"
+    DEBIAN_VERSION:   'bullseye-slim'
+    DEBIAN_TAG:       "2024-06-06.10"
     DEBIAN_EXEC:      'bash .gitlab-ci/common/debian/image-install.sh'
     DEBIAN_SKIP:      "false" # to enable, it has to be litterally "true"
 
-    FREEBSD_TAG:      '2025-03-07.01'
-    FREEBSD_VERSION:  '14.2'
+    FREEBSD_TAG:      '2024-06-06.06'
+    FREEBSD_VERSION:  '14.0'
 # image is yet too small for that - need a more complicated way :(
 #    FREEBSD_EXEC:     "bash .gitlab-ci/common/freebsd/image-install.sh"
     FREEBSD_SKIP:     "false" # to enable, it has to be litterally "true"
@@ -91,6 +92,7 @@ image@debian@i386:
         FDO_DISTRIBUTION_VERSION:   "$DEBIAN_VERSION"
         FDO_DISTRIBUTION_EXEC:      "$DEBIAN_EXEC"
         FDO_DISTRIBUTION_TAG:       "amd64-$DEBIAN_TAG"
+        FDO_DISTRIBUTION_PLATFORM:  "amd64"
         FDO_BASE_IMAGE:             "amd64/debian:$DEBIAN_VERSION"
 
 .xorg.distro@debian@i386:
@@ -98,6 +100,7 @@ image@debian@i386:
         FDO_DISTRIBUTION_VERSION:   "$DEBIAN_VERSION"
         FDO_DISTRIBUTION_EXEC:      "$DEBIAN_EXEC"
         FDO_DISTRIBUTION_TAG:       "i386-$DEBIAN_TAG"
+        FDO_DISTRIBUTION_PLATFORM:  "i386"
         FDO_BASE_IMAGE:             "i386/debian:$DEBIAN_VERSION"
 
 # overwrite this one if another matrix is needed
