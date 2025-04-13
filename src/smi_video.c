@@ -1812,7 +1812,8 @@ SMI_DisplayVideo0501_CSC(ScrnInfoPtr pScrn, int id, int offset,
     SMIPtr	pSmi = SMIPTR(pScrn);
     BoxPtr	pbox = REGION_RECTS(clipboxes);
     int		i, nbox = REGION_NUM_RECTS(clipboxes);
-    int32_t	rect_x, rect_y, rect_w, rect_h, csc;
+    int32_t	rect_x, rect_y, rect_w, rect_h;
+    uint32_t	csc;
     float	Hscale, Vscale;
 
     ENTER();
@@ -1835,23 +1836,23 @@ SMI_DisplayVideo0501_CSC(ScrnInfoPtr pScrn, int id, int offset,
     /* Use start of framebuffer as base offset */
     WRITE_DPR(pSmi, 0xf8, 0);
 
-    csc = (1 << 31) | (1 << 25);
+    csc = (1U << 31) | (1U << 25);
     if (pSmi->Bpp > 2)
-	csc |= 1 << 26;
+	csc |= 1U << 26;
 
     switch (id) {
 	case FOURCC_YV12:
 	    SrcUVPitch = SrcYPitch / 2;
 	    SrcVBase = SrcYBase + SrcYPitch * height;
 	    SrcUBase = SrcVBase + SrcUVPitch * height / 2;
-	    csc |= 2 << 28;
+	    csc |= 2U << 28;
 	    break;
 
 	case FOURCC_I420:
 	    SrcUVPitch = SrcYPitch / 2;
 	    SrcUBase = SrcYBase + SrcYPitch * height;
 	    SrcVBase = SrcUBase + SrcUVPitch * height / 2;
-	    csc |= 2 << 28;
+	    csc |= 2U << 28;
 	    break;
 
 	case FOURCC_YUY2:
@@ -1896,11 +1897,11 @@ SMI_DisplayVideo0501_CSC(ScrnInfoPtr pScrn, int id, int offset,
 	WRITE_DPR(pSmi, 0xEC, (rect_w << 16) | rect_h);
 	WRITE_DPR(pSmi, 0xF0, ((DestPitch >> 4) << 16) | rect_h);
 
-	while (READ_DPR(pSmi, 0xfc) & (1 << 31))
+	while (READ_DPR(pSmi, 0xfc) & (1U << 31))
 	    ;
 	WRITE_DPR(pSmi, 0xfc, csc);
 	/* CSC stop */
-	while (READ_DPR(pSmi, 0xfc) & (1 << 31))
+	while (READ_DPR(pSmi, 0xfc) & (1U << 31))
 	    ;
     }
 
