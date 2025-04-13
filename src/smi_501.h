@@ -255,7 +255,7 @@ typedef union _MSOCClockRec {
 	/* If pll_select is set, an alternate clock selection, available
 	 * only in the 502 (using PLL_CTL, MMIO 0x074), will be used,
 	 * and p2_* values will be ignored. */
-	int32_t		pll_select	: bits(30, 30);
+	uint32_t	pll_select	: bits(30, 30);
 	/* If p2_1xclck is set, it means use 1x clock, otherwise
 	 * 2x clocks must be specified in p2_{shift,divider,select}. */
 	int32_t 	p2_1xclck	: bits(31, 31);
@@ -288,14 +288,14 @@ typedef struct _MSOCRegRec {
      */
     union {
 	struct {
-	    int32_t	u0		: bits( 0,  6);
-	    int32_t	retry		: bits( 7,  7);
-	    int32_t	u1		: bits( 8, 14);
-	    int32_t	burst_read	: bits(15, 15);
-	    int32_t	u2		: bits(16, 28);
-	    int32_t	burst		: bits(29, 29);
-	    int32_t	dpmsh		: bits(30, 30);
-	    int32_t	dpmsv		: bits(31, 31);
+	    uint32_t	u0		: bits( 0,  6);
+	    uint32_t	retry		: bits( 7,  7);
+	    uint32_t	u1		: bits( 8, 14);
+	    uint32_t	burst_read	: bits(15, 15);
+	    uint32_t	u2		: bits(16, 28);
+	    uint32_t	burst		: bits(29, 29);
+	    uint32_t	dpmsh		: bits(30, 30);
+	    uint32_t	dpmsv		: bits(31, 31);
 	} f;
 	int32_t	value;
     } system_ctl;
@@ -347,11 +347,11 @@ typedef struct _MSOCRegRec {
      */
     union {
 	struct {
-	    int32_t	u0		: bits(0, 2);
-	    int32_t	engine		: bits(3, 3);
-	    int32_t	csc		: bits(4, 4);
-	    int32_t	zv		: bits(5, 5);
-	    int32_t	gpio		: bits(6, 6);
+	    uint32_t	u0		: bits(0, 2);
+	    uint32_t	engine		: bits(3, 3);
+	    uint32_t	csc		: bits(4, 4);
+	    uint32_t	zv		: bits(5, 5);
+	    uint32_t	gpio		: bits(6, 6);
 	} f;
 	int32_t	value;
     } gate;
@@ -477,9 +477,9 @@ typedef struct _MSOCRegRec {
 	struct {
 	    int32_t	m		: bits( 0,  7);
 	    int32_t	n		: bits( 8, 14);
-	    int32_t	divider		: bits(15, 15);
-	    int32_t	select		: bits(16, 16);
-	    int32_t	power		: bits(17, 17);
+	    uint32_t	divider		: bits(15, 15);
+	    uint32_t	select		: bits(16, 16);
+	    uint32_t	power		: bits(17, 17);
 	} f;
 	int32_t	value;
     } pll_ctl;
@@ -524,19 +524,19 @@ typedef struct _MSOCRegRec {
      */
     union {
 	struct {
-	    int32_t	format		: bits( 0,  1);
-	    int32_t	enable		: bits( 2,  2);
-	    int32_t	gamma		: bits( 3,  3);
-	    int32_t	u0		: bits( 4,  7);
-	    int32_t	timing		: bits( 8,  8);
-	    int32_t	u1		: bits( 9, 11);
-	    int32_t	hsync		: bits(12, 12);
-	    int32_t	vsync		: bits(13, 13);
-	    int32_t	u2		: bits(14, 23);
-	    int32_t	vdd		: bits(24, 24);
-	    int32_t	signal		: bits(25, 25);
-	    int32_t	bias		: bits(26, 26);
-	    int32_t	fp		: bits(27, 27);
+	    uint32_t	format		: bits( 0,  1);
+	    uint32_t	enable		: bits( 2,  2);
+	    uint32_t	gamma		: bits( 3,  3);
+	    uint32_t	u0		: bits( 4,  7);
+	    uint32_t	timing		: bits( 8,  8);
+	    uint32_t	u1		: bits( 9, 11);
+	    uint32_t	hsync		: bits(12, 12);
+	    uint32_t	vsync		: bits(13, 13);
+	    uint32_t	u2		: bits(14, 23);
+	    uint32_t	vdd		: bits(24, 24);
+	    uint32_t	signal		: bits(25, 25);
+	    uint32_t	bias		: bits(26, 26);
+	    uint32_t	fp		: bits(27, 27);
 	} f;
 	int32_t		value;
     } panel_display_ctl;
@@ -560,12 +560,12 @@ typedef struct _MSOCRegRec {
      */
     union {
 	struct {
-	    int32_t	u0		: bits( 0,  3);
-	    int32_t	address		: bits( 4, 25);
-	    int32_t	mextern		: bits(26, 26);
-	    int32_t	mselect		: bits(27, 27);
-	    int32_t	u1		: bits(28, 30);
-	    int32_t	pending		: bits(31, 31);
+	    uint32_t	u0		: bits( 0,  3);
+	    uint32_t	address		: bits( 4, 25);
+	    uint32_t	mextern		: bits(26, 26);
+	    uint32_t	mselect		: bits(27, 27);
+	    uint32_t	u1		: bits(28, 30);
+	    uint32_t	pending		: bits(31, 31);
 	} f;
 	int32_t		value;
     } panel_fb_address;
@@ -903,16 +903,16 @@ typedef struct _MSOCRegRec {
      */
     union {
 	struct {
-	    int32_t	format		: bits( 0,  1);
-	    int32_t	enable		: bits( 2,  2);
-	    int32_t	gamma		: bits( 3,  3);
+	    uint32_t	format		: bits( 0,  1);
+	    uint32_t	enable		: bits( 2,  2);
+	    uint32_t	gamma		: bits( 3,  3);
 	    int32_t	pixel		: bits( 4,  7);
-	    int32_t	timing		: bits( 8,  8);
-	    int32_t	select		: bits( 9,  9);
-	    int32_t	blank		: bits(10, 10);
-	    int32_t	sync		: bits(11, 11);
-	    int32_t	hsync		: bits(12, 12);
-	    int32_t	vsync		: bits(13, 13);
+	    uint32_t	timing		: bits( 8,  8);
+	    uint32_t	select		: bits( 9,  9);
+	    uint32_t	blank		: bits(10, 10);
+	    uint32_t	sync		: bits(11, 11);
+	    uint32_t	hsync		: bits(12, 12);
+	    uint32_t	vsync		: bits(13, 13);
 	} f;
 	int32_t		value;
     } crt_display_ctl;
@@ -936,12 +936,12 @@ typedef struct _MSOCRegRec {
      */
     union {
 	struct {
-	    int32_t	u0		: bits( 0,  3);
-	    int32_t	address		: bits( 4, 25);
-	    int32_t	mextern		: bits(26, 26);
-	    int32_t	mselect		: bits(27, 27);
-	    int32_t	u1		: bits(28, 30);
-	    int32_t	pending		: bits(31, 31);
+	    uint32_t	u0		: bits( 0,  3);
+	    uint32_t	address		: bits( 4, 25);
+	    uint32_t	mextern		: bits(26, 26);
+	    uint32_t	mselect		: bits(27, 27);
+	    uint32_t	u1		: bits(28, 30);
+	    uint32_t	pending		: bits(31, 31);
 	} f;
 	int32_t		value;
     } crt_fb_address;
