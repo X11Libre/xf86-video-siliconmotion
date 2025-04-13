@@ -49,6 +49,7 @@ SMI501_OutputDPMS_lcd(xf86OutputPtr output, int dpms)
     switch (dpms) {
     case DPMSModeOn:
 	SMI501_PowerPanel(pScrn, mode, TRUE);
+	break;
     case DPMSModeStandby:
 	break;
     case DPMSModeSuspend:
