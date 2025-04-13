@@ -1490,7 +1490,7 @@ SMI_PutImage(
     int left, top, nPixels, nLines;
     unsigned char *dstStart;
     xf86CrtcConfigPtr crtcConf = XF86_CRTC_CONFIG_PTR(pScrn);
-    xf86CrtcPtr crtc;
+    xf86CrtcPtr crtc = NULL;
 
     ENTER();
 
