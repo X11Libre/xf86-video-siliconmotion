@@ -97,9 +97,6 @@ static void SMI_DetectMCLK(ScrnInfoPtr pScrn);
 int smi_indent = 1;
 #endif
 
-/* for dualhead */
-int gSMIEntityIndex = -1;
-
 /*
  * This contains the functions needed by the server after loading the
  * driver module.  It must be supplied, and gets added the driver list by

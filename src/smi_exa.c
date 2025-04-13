@@ -198,7 +198,7 @@ SMI_EXASync(ScreenPtr pScreen, int marker)
 
 /* ----------------------------------------------------- EXA Copy ---------------------------------------------- */
 
-CARD8 SMI_BltRop[16] =	/* table stolen from KAA */
+static CARD8 SMI_BltRop[16] =	/* table stolen from KAA */
 {
     /* GXclear      */      0x00,         /* 0 */
     /* GXand        */      0x88,         /* src AND dst */
@@ -344,7 +344,7 @@ SMI_DoneCopy(PixmapPtr pDstPixmap)
 
 /* ----------------------------------------------------- EXA Solid --------------------------------------------- */
 
-CARD8 SMI_SolidRop[16] =	/* table stolen from KAA */
+static CARD8 SMI_SolidRop[16] =	/* table stolen from KAA */
 {
     /* GXclear      */      0x00,         /* 0 */
     /* GXand        */      0xA0,         /* src AND dst */
