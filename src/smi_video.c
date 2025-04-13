@@ -61,12 +61,10 @@ authorization from the XFree86 Project and silicon Motion.
 #include "xf86Crtc.h"
 
 #undef MIN
-#undef ABS
 #undef CLAMP
 #undef ENTRIES
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b)) 
-#define ABS(n) (((n) < 0) ? -(n) : (n))
 #define CLAMP(v, min, max) (((v) < (min)) ? (min) : MIN(v, max))
 
 #define ENTRIES(array) (sizeof(array) / sizeof((array)[0]))
