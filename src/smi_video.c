@@ -48,6 +48,7 @@ authorization from the XFree86 Project and silicon Motion.
 	The default value can be set with the driver option Interlaced
 */
 
+#define _GNU_SOURCE
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
