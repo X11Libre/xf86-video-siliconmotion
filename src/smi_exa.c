@@ -93,7 +93,7 @@ SMI_EXAInit(ScreenPtr pScreen)
 {
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     SMIPtr pSmi = SMIPTR(pScrn);
-	
+
     ENTER();
 
     if (!(pSmi->EXADriverPtr = exaDriverAlloc())) {
@@ -231,7 +231,7 @@ SMI_PrepareCopy(PixmapPtr pSrcPixmap, PixmapPtr pDstPixmap, int xdir, int ydir,
     DEBUG("xdir=%d ydir=%d alu=%02X", xdir, ydir, alu);
 
     /* Bit Mask not supported > 16 bpp */
-    if ((pSrcPixmap->drawable.bitsPerPixel > 16) && 
+    if ((pSrcPixmap->drawable.bitsPerPixel > 16) &&
 	(!EXA_PM_IS_SOLID(&pSrcPixmap->drawable, planemask)))
 	LEAVE(FALSE);
 
@@ -380,7 +380,7 @@ SMI_PrepareSolid(PixmapPtr pPixmap, int alu, Pixel planemask, Pixel fg)
 	LEAVE(FALSE);
 
     /* Bit Mask not supported > 16 bpp */
-    if ((pPixmap->drawable.bitsPerPixel > 16) && 
+    if ((pPixmap->drawable.bitsPerPixel > 16) &&
 	(!EXA_PM_IS_SOLID(&pPixmap->drawable, planemask)))
 	LEAVE(FALSE);
 

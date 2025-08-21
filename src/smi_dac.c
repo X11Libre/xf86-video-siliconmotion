@@ -36,8 +36,8 @@ authorization from the XFree86 Project and Silicon Motion.
 #define BASE_FREQ	14.31818	/* MHz */
 
 void
-SMI_CommonCalcClock(int scrnIndex, long freq, int min_m, int min_n1, 
-		    int max_n1, int min_n2, int max_n2, long freq_min, 
+SMI_CommonCalcClock(int scrnIndex, long freq, int min_m, int min_n1,
+		    int max_n1, int min_n2, int max_n2, long freq_min,
 		    long freq_max, unsigned char *mdiv, unsigned char *ndiv)
 {
     ScrnInfoPtr pScrn = xf86Screens[scrnIndex];

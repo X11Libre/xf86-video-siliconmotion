@@ -2,12 +2,12 @@
 ChipIdentify (SMIIdentify)
 ChipProbe (SMIProbe)
 	Passive only, no ram determination, no writing
-	
+
 -- For each ScrnInfoRec, still calling order --
 ChipPreInit (SMIPreInit)
 	Allows probing and mapping, hardware must remain unchanged
   ChipGetRec
-  
+
 ChipScreenInit
   ChipMapMem
   ChipSave
