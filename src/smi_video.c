@@ -65,7 +65,7 @@ authorization from the XFree86 Project and silicon Motion.
 #undef CLAMP
 #undef ENTRIES
 
-#define MIN(a, b) (((a) < (b)) ? (a) : (b)) 
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define CLAMP(v, min, max) (((v) < (min)) ? (min) : MIN(v, max))
 
 #define ENTRIES(array) (sizeof(array) / sizeof((array)[0]))
@@ -558,7 +558,7 @@ SMI_BuildEncodings(SMI_PortPtr p)
 	}
     }
     LEAVE();
-    
+
  fail:
     free(p->input);
     p->input = NULL;
@@ -641,7 +641,7 @@ SetAttr(ScrnInfoPtr pScrn, int i, int value)
 
     if (i < XV_ENCODING || i > XV_HUE)
 	return BadMatch;
-    
+
     /* clamps value to attribute range */
     value = CLAMP(value, SMI_VideoAttributes[i].min_value,
 		  SMI_VideoAttributes[i].max_value);
@@ -719,7 +719,7 @@ SetAttrSAA7111(ScrnInfoPtr pScrn, int i, int value)
 	    DEBUG("SetAttribute XV_BRIGHTNESS: %d\n", value);
 	    slave_adr = 0x0a;
 	    break;
-		
+
 	case XV_CONTRAST:
 	    DEBUG("SetAttribute XV_CONTRAST: %d\n", value);
 	    slave_adr = 0x0b;
@@ -855,17 +855,17 @@ SMI_SetupVideo(ScreenPtr pScreen)
 
 
     if (!IS_MSOC(pSmi) && xf86I2CDevInit(&(smiPortPtr->I2CDev))) {
-	
+
 	if (xf86I2CWriteVec(&(smiPortPtr->I2CDev), SAA7111InitData, ENTRIES(SAA7111InitData) / 2)) {
 	    xvEncoding   = MAKE_ATOM(XV_ENCODING_NAME);
 	    xvHue        = MAKE_ATOM(XV_HUE_NAME);
 	    xvSaturation = MAKE_ATOM(XV_SATURATION_NAME);
 	    xvContrast   = MAKE_ATOM(XV_CONTRAST_NAME);
-	    
+
 	    xvInterlaced = MAKE_ATOM(XV_INTERLACED_NAME);
 	    DEBUG("SAA7111 initialized\n");
-    
-	} else { 
+
+	} else {
 	    xf86DestroyI2CDevRec(&(smiPortPtr->I2CDev),FALSE);
 	    smiPortPtr->I2CDev.SlaveAddr = 0;
 	}
@@ -1024,7 +1024,7 @@ SMI_PutVideo(
        Bit 21     = 0: Vertical Interpolation                   = s. below
        Bit 22     = 0: Flicker Reduction for TV Modes           = disabled
        Bit 23     = 0: Fixed Vertical Interpolation             = disabled
-       Bit 24     = 1: Select Video Window I Source Addr        = 
+       Bit 24     = 1: Select Video Window I Source Addr        =
        Bit 25     = 0: Enable V0FIFO to fetch 8-Bit color data  = disabled
        Bit 26     = 0:
        Bit 27     = 1: Color Key for Window II                  = disabled
@@ -1207,7 +1207,7 @@ SMI_PutVideo(
 	WRITE_VPR(pSmi, 0x48, vid_address / 8);
 	/* Video Window II Source Start Address */
 	WRITE_VPR(pSmi, 0x4C, vid_address / 8 + vid_pitch / 8);
-	
+
 	/* Video Source Clipping Control */
 	WRITE_CPR(pSmi, 0x04, left + ((top/2) << 16));
 	/* Video Source Capture Size Control */
@@ -1530,7 +1530,7 @@ SMI_PutImage(
 		offset3 = tmp;
 	    }
 	    nLines = ((((y2 + 0xffff) >> 16) + 1) & ~1) - top;
-	    xf86XVCopyYUV12ToPacked(buf + (top * srcPitch) + (left >> 1), 
+	    xf86XVCopyYUV12ToPacked(buf + (top * srcPitch) + (left >> 1),
 				    buf + offset2, buf + offset3, dstStart,
 				    srcPitch, srcPitch2, dstPitch, nLines,
 				    nPixels);
@@ -1574,7 +1574,7 @@ SMI_PutImage(
     pPort->videoStatus = CLIENT_VIDEO_ON;
 
     LEAVE(Success);
-	
+
 }
 
 
@@ -1906,7 +1906,7 @@ SMI_DisplayVideo0501(ScrnInfoPtr pScrn,
 	    drw_h = vid_h >> 1;
 	vstretch = (4096 * drw_h / vid_h) | 0x8000;
     }
-    
+
     /* Set Color Key Enable bit */
 
     WRITE_DCR(pSmi, 0x0000, READ_DCR(pSmi, 0x0000) | (1 << 9));
@@ -1991,8 +1991,8 @@ SMI_DisplayVideo0730(
     WRITE_FPR(pSmi, FPR18, (dstBox->x2) | (dstBox->y2 << 16));
     WRITE_FPR(pSmi, FPR1C, offset >> 3);
     WRITE_FPR(pSmi, FPR20, (pitch >> 3) | ((pitch >> 3) << 16));
-    WRITE_FPR(pSmi, FPR24, (hstretch & 0xFF00) | ((vstretch & 0xFF00)>>8)); 
-    WRITE_FPR(pSmi, FPR68, ((hstretch & 0x00FF)<<8) | (vstretch & 0x00FF)); 
+    WRITE_FPR(pSmi, FPR24, (hstretch & 0xFF00) | ((vstretch & 0xFF00)>>8));
+    WRITE_FPR(pSmi, FPR68, ((hstretch & 0x00FF)<<8) | (vstretch & 0x00FF));
 
     LEAVE();
 }
@@ -2069,10 +2069,10 @@ SMI_InitOffscreenImages(
     offscreenImages->max_height = pSmi->lcdHeight;
     if (!pPort->I2CDev.SlaveAddr) {
 	offscreenImages->num_attributes = nElems(SMI_VideoAttributes);
-	offscreenImages->attributes = SMI_VideoAttributes; 
+	offscreenImages->attributes = SMI_VideoAttributes;
     } else {
 	offscreenImages->num_attributes = nElems(SMI_VideoAttributesSAA711x);
-	offscreenImages->attributes = SMI_VideoAttributesSAA711x; 
+	offscreenImages->attributes = SMI_VideoAttributesSAA711x;
     }
     xf86XVRegisterOffscreenImages(pScreen, offscreenImages, 1);
 
@@ -2085,7 +2085,7 @@ SMI_VideoSave(ScreenPtr pScreen, ExaOffscreenArea *area)
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     SMIPtr pSmi = SMIPTR(pScrn);
     SMI_PortPtr pPort = pSmi->ptrAdaptor->pPortPrivates[0].ptr;
-	
+
     ENTER();
 
     if (pPort->video_memory == area)
@@ -2171,13 +2171,13 @@ SMI_FreeMemory(
 
     if (pSmi->useEXA) {
 	ExaOffscreenArea *area = mem_struct;
-		
-	if (area != NULL) 
+
+	if (area != NULL)
 	    exaOffscreenFree(pScrn->pScreen, area);
     } else {
 	FBLinearPtr linear = mem_struct;
-		
-	if (linear != NULL) 
+
+	if (linear != NULL)
 	    xf86FreeOffscreenLinear(linear);
     }
 

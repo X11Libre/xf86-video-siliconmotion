@@ -614,7 +614,7 @@ SMI501_CrtcLoadCursorArgb(xf86CrtcPtr crtc, CARD32 *image)
     }
     SMI501_WriteMode_alpha(pScrn, mode);
     smi_crtc->argb_cursor = TRUE;
- 
+
      LEAVE();
  }
 #endif

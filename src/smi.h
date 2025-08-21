@@ -357,9 +357,9 @@ do									\
 /******************************************************************************/
 
 /* smi_dac.c */
-void SMI_CommonCalcClock(int scrnIndex, long freq, int min_m, int min_n1, 
-			 int max_n1, int min_n2, int max_n2, long freq_min, 
-			 long freq_max, unsigned char * mdiv, 
+void SMI_CommonCalcClock(int scrnIndex, long freq, int min_m, int min_n1,
+			 int max_n1, int min_n2, int max_n2, long freq_min,
+			 long freq_max, unsigned char * mdiv,
 			 unsigned char * ndiv);
 
 /* smi_i2c */

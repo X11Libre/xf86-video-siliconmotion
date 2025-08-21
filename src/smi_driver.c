@@ -374,7 +374,7 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
     SMIPtr pSmi;
     MessageType from;
     vgaHWPtr hwp;
-	
+
     ENTER();
 
     /* Ignoring the Type list for now.  It might be needed when multiple cards
@@ -875,7 +875,7 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
 	    memset(&req, 0, sizeof(XF86ModReqInfo));
 	    req.majorversion = 2;
 	    req.minorversion = 1;
-			
+
 	    if (!LoadSubModule(pScrn->module, "exa", NULL, NULL, NULL,
 				&req, &errmaj, &errmin)) {
 		LoaderErrorMsg(NULL, "exa", errmaj, errmin);
@@ -1049,7 +1049,7 @@ SMI_DetectPanelSize(ScrnInfoPtr pScrn)
 		/* int10 support isn't setup on the second call to this function,
 		  o if this is the second call, don't do detection again */
 		if (pSmi->lcd == 0)
-		    /* If we get here, int10 support is not loaded or not working */ 
+		    /* If we get here, int10 support is not loaded or not working */
 		    xf86DrvMsg(pScrn->scrnIndex, X_INFO,
 			       "No BIOS support for 730 panel detection!\n");
 	    }
@@ -1605,7 +1605,7 @@ SMI_ScreenInit(ScreenPtr pScreen, int argc, char **argv)
     ScrnInfoPtr		pScrn = xf86ScreenToScrn(pScreen);
     SMIPtr		pSmi = SMIPTR(pScrn);
     EntityInfoPtr	pEnt;
-	
+
     ENTER();
 
     /* Map MMIO regs and framebuffer */
@@ -1690,7 +1690,7 @@ SMI_ScreenInit(ScreenPtr pScreen, int argc, char **argv)
 
     /* must be after RGB ordering fixed */
     fbPictureInit(pScreen, 0, 0);
- 
+
     /* Do the CRTC independent initialization */
     if(!SMI_HWInit(pScrn))
 	LEAVE(FALSE);
@@ -1812,7 +1812,7 @@ SMI_CloseScreen(ScreenPtr pScreen)
     ScrnInfoPtr	pScrn = xf86ScreenToScrn(pScreen);
     SMIPtr	pSmi = SMIPTR(pScrn);
     Bool	ret;
-	
+
     ENTER();
 
     if (pSmi->HwCursor)
