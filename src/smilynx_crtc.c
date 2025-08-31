@@ -942,8 +942,10 @@ SMILynx_CrtcPreInit(ScrnInfoPtr pScrn)
 	    crtcFuncs->load_cursor_image = SMILynx_CrtcLoadCursorImage_crt;
 	}
 
-	if(! (crtc = xf86CrtcCreate(pScrn,crtcFuncs)))
+	if(! (crtc = xf86CrtcCreate(pScrn,crtcFuncs))) {
+	    free(crtcPriv);
 	    LEAVE(FALSE);
+	}
 	crtc->driver_private = crtcPriv;
     }else{
 	/* CRTC0 can drive both outputs when virtual refresh is
@@ -979,8 +981,10 @@ SMILynx_CrtcPreInit(ScrnInfoPtr pScrn)
 	    crtcFuncs->load_cursor_image = SMILynx_CrtcLoadCursorImage_crt;
 	}
 
-	if(! (crtc = xf86CrtcCreate(pScrn,crtcFuncs)))
+	if(! (crtc = xf86CrtcCreate(pScrn,crtcFuncs))) {
+	    free(crtcPriv);
 	    LEAVE(FALSE);
+	}
 	crtc->driver_private = crtcPriv;
 
 	if(pSmi->Dualhead){
@@ -993,8 +997,10 @@ SMILynx_CrtcPreInit(ScrnInfoPtr pScrn)
 	    crtcPriv->video_init = SMILynx_CrtcVideoInit_lcd;
 	    crtcPriv->load_lut = SMILynx_CrtcLoadLUT_lcd;
 
-	    if(! (crtc = xf86CrtcCreate(pScrn,crtcFuncs)))
+	    if(! (crtc = xf86CrtcCreate(pScrn,crtcFuncs))) {
+		free(crtcPriv);
 		LEAVE(FALSE);
+	    }
 	    crtc->driver_private = crtcPriv;
 	}
     }
