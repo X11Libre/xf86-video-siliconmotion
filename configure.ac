@@ -22,10 +22,10 @@
 
 # Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT([xf86-video-siliconmotion],
+AC_INIT([xlibre-xf86-video-siliconmotion],
         [1.7.10],
-        [https://gitlab.freedesktop.org/xorg/driver/xf86-video-siliconmotion/issues],
-        [xf86-video-siliconmotion])
+        [https://github.com/X11Libre/xf86-video-siliconmotion/issues],
+        [xlibre-xf86-video-siliconmotion])
 
 # Require X.Org macros 1.8 or later for MAN_SUBSTS set by XORG_MANPAGE_SECTIONS
 m4_ifndef([XORG_MACROS_VERSION],
