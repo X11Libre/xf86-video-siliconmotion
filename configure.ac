@@ -23,7 +23,7 @@
 # Initialize Autoconf
 AC_PREREQ([2.60])
 AC_INIT([xlibre-xf86-video-siliconmotion],
-        [1.7.11],
+        [25.0.0],
         [https://github.com/X11Libre/xf86-video-siliconmotion/issues],
         [xlibre-xf86-video-siliconmotion])
 
