@@ -26,10 +26,7 @@ Silicon Motion shall not be used in advertising or otherwise to promote the
 sale, use or other dealings in this Software without prior written
 authorization from the XFree86 Project and silicon Motion.
 */
-
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "smi.h"
 #include "smi_501.h"
