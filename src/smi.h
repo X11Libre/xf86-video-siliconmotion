@@ -166,9 +166,6 @@ typedef struct
     vbeInfoPtr          pVbe;           /* Pointer to VBE module */
 
     pciVideoPtr		PciInfo;	/* PCI info vars */
-#ifndef XSERVER_LIBPCIACCESS
-    PCITAG		PciTag;
-#endif
     int			Chipset;	/* Chip info, set using PCI
 					   above */
     int			ChipRev;

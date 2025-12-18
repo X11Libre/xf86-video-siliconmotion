@@ -306,11 +306,6 @@ SMI_Probe(DriverPtr drv, int flags)
 	/* There's no matching device section in the config file, so quit now. */
 	LEAVE(FALSE);
 
-#ifndef XSERVER_LIBPCIACCESS
-    if (xf86GetPciVideoInfo() == NULL)
-	LEAVE(FALSE);
-#endif
-
     numUsed = xf86MatchPciInstances(SILICONMOTION_NAME, PCI_SMI_VENDOR_ID,
 				    SMIChipsets, SMIPciChipsets, devSections,
 				    numDevSections, drv, &usedChips);
@@ -609,9 +604,6 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
 	}
     }
 
-#ifndef XSERVER_LIBPCIACCESS
-    xf86RegisterResources(pEnt->index, NULL, ResExclusive);
-#endif
     /*
      * Set the Chipset and ChipRev, allowing config file entries to
      * override.
@@ -660,11 +652,6 @@ SMI_PreInit(ScrnInfoPtr pScrn, int flags)
     }
 
     xf86DrvMsg(pScrn->scrnIndex, from, "Chipset: \"%s\"\n", pScrn->chipset);
-
-#ifndef XSERVER_LIBPCIACCESS
-    pSmi->PciTag = pciTag(pSmi->PciInfo->bus, pSmi->PciInfo->device,
-		   	  pSmi->PciInfo->func);
-#endif
 
     from = X_DEFAULT;
     if(pSmi->Chipset == SMI_LYNX3DM &&
@@ -1221,10 +1208,6 @@ SMI_MapMmio(ScrnInfoPtr pScrn)
 	    break;
     }
 
-#ifndef XSERVER_LIBPCIACCESS
-    pSmi->MapBase = xf86MapPciMem(pScrn->scrnIndex, VIDMEM_MMIO, pSmi->PciTag,
-				  memBase, pSmi->MapSize);
-#else
     {
 	void	**result = (void**)&pSmi->MapBase;
 	int	  err = pci_device_map_range(pSmi->PciInfo,
@@ -1236,7 +1219,6 @@ SMI_MapMmio(ScrnInfoPtr pScrn)
 	if (err)
 	    return (FALSE);
     }
-#endif
 
     if (pSmi->MapBase == NULL) {
 	xf86DrvMsg(pScrn->scrnIndex, X_ERROR, "Internal error: could not map "
@@ -1330,17 +1312,9 @@ SMI_ProbeMem(ScrnInfoPtr pScrn, unsigned long mem_skip, unsigned long mem_max)
     aperture_base = PCI_REGION_BASE(pSmi->PciInfo, 0, REGION_MEM) + mem_skip;
     mem_max = min(mem_max , PCI_REGION_SIZE(pSmi->PciInfo, 0) - mem_skip);
 
-#ifndef XSERVER_LIBPCIACCESS
-    mem = xf86MapPciMem(pScrn->scrnIndex, VIDMEM_MMIO, pSmi->PciTag,
-			aperture_base, mem_max);
-
-    if(!mem)
-	LEAVE(0);
-#else
     if(pci_device_map_range(pSmi->PciInfo, aperture_base, mem_max,
 			    PCI_DEV_MAP_FLAG_WRITABLE, &mem))
 	LEAVE(0);
-#endif
 
     while(mem_probe <= mem_max){
 	MMIO_OUT32(mem, mem_probe-4, 0x55555555);
@@ -1354,11 +1328,7 @@ SMI_ProbeMem(ScrnInfoPtr pScrn, unsigned long mem_skip, unsigned long mem_max)
 	mem_probe <<= 1;
     }
 
-#ifndef XSERVER_LIBPCIACCESS
-    xf86UnMapVidMem(pScrn->scrnIndex, mem, mem_max);
-#else
     pci_device_unmap_range(pSmi->PciInfo, mem, mem_max);
-#endif
 
     LEAVE(mem_probe >> 1);
 }
@@ -1437,13 +1407,6 @@ SMI_MapMem(ScrnInfoPtr pScrn)
     else
 	pSmi->fbMapOffset = 0x0;
 
-#ifndef XSERVER_LIBPCIACCESS
-    pSmi->FBBase = xf86MapPciMem(pScrn->scrnIndex,
-				 VIDMEM_FRAMEBUFFER,
-				 pSmi->PciTag,
-				 pScrn->memPhysBase + pSmi->fbMapOffset,
-				 pSmi->videoRAMBytes);
-#else
     {
 	void	**result = (void**)&pSmi->FBBase;
 	int	  err = pci_device_map_range(pSmi->PciInfo,
@@ -1457,7 +1420,6 @@ SMI_MapMem(ScrnInfoPtr pScrn)
 	if (err)
 	    LEAVE(FALSE);
     }
-#endif
 
     if (pSmi->FBBase == NULL) {
 	xf86DrvMsg(pScrn->scrnIndex, X_ERROR,
@@ -1560,24 +1522,14 @@ SMI_UnmapMem(ScrnInfoPtr pScrn)
     SMI_DisableMmio(pScrn);
 
     if (pSmi->MapBase) {
-#ifndef XSERVER_LIBPCIACCESS
-	xf86UnMapVidMem(pScrn->scrnIndex, (pointer)pSmi->MapBase,
-			pSmi->MapSize);
-#else
 	pci_device_unmap_range(pSmi->PciInfo, (pointer)pSmi->MapBase,
 			       pSmi->MapSize);
-#endif
 	pSmi->MapBase = NULL;
     }
 
     if (pSmi->FBBase) {
-#ifndef XSERVER_LIBPCIACCESS
-	xf86UnMapVidMem(pScrn->scrnIndex, (pointer) pSmi->FBBase,
-			pSmi->videoRAMBytes);
-#else
 	pci_device_unmap_range(pSmi->PciInfo, (pointer)pSmi->FBBase,
 			       pSmi->videoRAMBytes);
-#endif
 	pSmi->FBBase = NULL;
     }
 
