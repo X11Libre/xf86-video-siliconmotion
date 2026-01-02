@@ -122,7 +122,7 @@ static void SMI_DisplayVideo0501(ScrnInfoPtr pScrn, int id, int offset,
 static void SMI_DisplayVideo0730(ScrnInfoPtr pScrn, int id, int offset,
 		short width, short height, int pitch, int x1, int y1, int x2, int y2,
 		BoxPtr dstBox, short vid_w, short vid_h, short drw_w, short drw_h);
-static void SMI_BlockHandler(BLOCKHANDLER_ARGS_DECL);
+static void SMI_BlockHandler(ScreenPtr pScreen, pointer pTimeout);
 
 static void SMI_InitOffscreenImages(ScreenPtr pScreen);
 static void SMI_VideoSave(ScreenPtr pScreen, ExaOffscreenArea *area);
@@ -1996,14 +1996,14 @@ SMI_DisplayVideo0730(
 }
 
 static void
-SMI_BlockHandler(BLOCKHANDLER_ARGS_DECL)
+SMI_BlockHandler(ScreenPtr pScreen, pointer pTimeout)
 {
     ScrnInfoPtr	pScrn	= xf86ScreenToScrn(pScreen);
     SMIPtr	pSmi    = SMIPTR(pScrn);
     SMI_PortPtr pPort = (SMI_PortPtr) pSmi->ptrAdaptor->pPortPrivates[0].ptr;
 
     pScreen->BlockHandler = pSmi->BlockHandler;
-    (*pScreen->BlockHandler)(BLOCKHANDLER_ARGS);
+    (*pScreen->BlockHandler)(pScreen, pTimeout);
     pScreen->BlockHandler = SMI_BlockHandler;
 
     if (pPort->videoStatus & TIMER_MASK) {

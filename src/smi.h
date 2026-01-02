@@ -60,7 +60,6 @@ authorization from the XFree86 Project and Silicon Motion.
 #include "xf86xv.h"
 #include <X11/extensions/Xv.h>
 
-#include "compat-api.h"
 /******************************************************************************/
 /*			D E F I N I T I O N S				      */
 /******************************************************************************/
@@ -268,7 +267,7 @@ typedef struct
     Bool		interlaced;	/* True: Interlaced Video */
     XF86VideoAdaptorPtr	ptrAdaptor;	/* Pointer to VideoAdapter
 					   structure */
-    void (*BlockHandler)(BLOCKHANDLER_ARGS_DECL);
+    void (*BlockHandler)(ScreenPtr pScreen, pointer pTimeout);
 #if SMI501_CLI_DEBUG
     /* SMI 501/502 Command List Interpreter */
     Bool		 batch_active;
