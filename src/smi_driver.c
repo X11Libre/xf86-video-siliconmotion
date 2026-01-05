@@ -211,8 +211,8 @@ _X_EXPORT XF86ModuleData siliconmotionModuleData =
     NULL
 };
 
-static pointer
-siliconmotionSetup(pointer module, pointer opts, int *errmaj, int *errmin)
+static void*
+siliconmotionSetup(void *module, void *opts, int *errmaj, int *errmin)
 {
     static Bool setupDone = FALSE;
 
@@ -224,7 +224,7 @@ siliconmotionSetup(pointer module, pointer opts, int *errmaj, int *errmin)
 	 * The return value must be non-NULL on success even though there
 	 * is no TearDownProc.
 	 */
-	return (pointer) 1;
+	return (void*) 1;
 
     } else {
 	if (errmaj) {
@@ -1522,13 +1522,13 @@ SMI_UnmapMem(ScrnInfoPtr pScrn)
     SMI_DisableMmio(pScrn);
 
     if (pSmi->MapBase) {
-	pci_device_unmap_range(pSmi->PciInfo, (pointer)pSmi->MapBase,
+	pci_device_unmap_range(pSmi->PciInfo, pSmi->MapBase,
 			       pSmi->MapSize);
 	pSmi->MapBase = NULL;
     }
 
     if (pSmi->FBBase) {
-	pci_device_unmap_range(pSmi->PciInfo, (pointer)pSmi->FBBase,
+	pci_device_unmap_range(pSmi->PciInfo, pSmi->FBBase,
 			       pSmi->videoRAMBytes);
 	pSmi->FBBase = NULL;
     }
