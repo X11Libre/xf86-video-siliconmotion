@@ -86,21 +86,21 @@ static void SMI_ResetVideo(ScrnInfoPtr pScrn);
 static int SMI_PutVideo(ScrnInfoPtr pScrn,
 		short vid_x, short vid_y, short drw_x, short drw_y,
 		short vid_w, short vid_h, short drw_w, short drw_h,
-		RegionPtr clipBoxes, pointer data, DrawablePtr);
+		RegionPtr clipBoxes, void *data, DrawablePtr);
 #endif
-static void SMI_StopVideo(ScrnInfoPtr pScrn, pointer data, Bool shutdown);
+static void SMI_StopVideo(ScrnInfoPtr pScrn, void *data, Bool shutdown);
 static int SMI_SetPortAttribute(ScrnInfoPtr pScrn, Atom attribute,
-		INT32 value, pointer data);
+		INT32 value, void *data);
 static int SMI_GetPortAttribute(ScrnInfoPtr pScrn, Atom attribute,
-		INT32 *value, pointer data);
+		INT32 *value, void *data);
 static void SMI_QueryBestSize(ScrnInfoPtr pScrn, Bool motion,
 		short vid_w, short vid_h, short drw_w, short drw_h,
-		unsigned int *p_w, unsigned int *p_h, pointer data);
+		unsigned int *p_w, unsigned int *p_h, void *data);
 static int SMI_PutImage(ScrnInfoPtr pScrn,
 		short src_x, short src_y, short drw_x, short drw_y,
 		short src_w, short src_h, short drw_w, short drw_h,
 		int id, unsigned char *buf, short width, short height, Bool sync,
-		RegionPtr clipBoxes, pointer data, DrawablePtr);
+		RegionPtr clipBoxes, void *data, DrawablePtr);
 static int SMI_QueryImageAttributes(ScrnInfoPtr pScrn,
 		int id, unsigned short *width, unsigned short *height,
 		int *picthes, int *offsets);
@@ -122,7 +122,7 @@ static void SMI_DisplayVideo0501(ScrnInfoPtr pScrn, int id, int offset,
 static void SMI_DisplayVideo0730(ScrnInfoPtr pScrn, int id, int offset,
 		short width, short height, int pitch, int x1, int y1, int x2, int y2,
 		BoxPtr dstBox, short vid_w, short vid_h, short drw_w, short drw_h);
-static void SMI_BlockHandler(ScreenPtr pScreen, pointer pTimeout);
+static void SMI_BlockHandler(ScreenPtr pScreen, void *pTimeout);
 
 static void SMI_InitOffscreenImages(ScreenPtr pScreen);
 static void SMI_VideoSave(ScreenPtr pScreen, ExaOffscreenArea *area);
@@ -799,7 +799,7 @@ SMI_SetupVideo(ScreenPtr pScreen)
 
     ptrAdaptor->nPorts = 1;
     ptrAdaptor->pPortPrivates = (DevUnion*) &ptrAdaptor[1];
-    ptrAdaptor->pPortPrivates[0].ptr = (pointer) &ptrAdaptor->pPortPrivates[1];
+    ptrAdaptor->pPortPrivates[0].ptr = &ptrAdaptor->pPortPrivates[1];
 
     smiPortPtr = (SMI_PortPtr) ptrAdaptor->pPortPrivates[0].ptr;
 
@@ -940,7 +940,7 @@ SMI_PutVideo(
 	short		drw_w,
 	short		drw_h,
 	RegionPtr	clipBoxes,
-	pointer		data,
+	void*		data,
 	DrawablePtr	pDraw
 )
 {
@@ -1243,7 +1243,7 @@ SMI_PutVideo(
 static void
 SMI_StopVideo(
 	ScrnInfoPtr	pScrn,
-	pointer		data,
+	void*		data,
 	Bool		shutdown
 )
 {
@@ -1290,7 +1290,7 @@ SMI_SetPortAttribute(
 	ScrnInfoPtr	pScrn,
 	Atom		attribute,
 	INT32		value,
-	pointer		data
+	void*		data
 )
 {
     int res;
@@ -1347,7 +1347,7 @@ SMI_GetPortAttribute(
 	ScrnInfoPtr	pScrn,
 	Atom		attribute,
 	INT32		*value,
-	pointer		data
+	void*		data
 )
 {
     SMI_PortPtr pPort = (SMI_PortPtr) data;
@@ -1384,7 +1384,7 @@ SMI_QueryBestSize(
 	short			drw_h,
 	unsigned int	*p_w,
 	unsigned int	*p_h,
-	pointer			data
+	void*			data
 )
 {
     SMIPtr pSmi = SMIPTR(pScrn);
@@ -1415,7 +1415,7 @@ SMI_PutImage(
 	short			height,
 	Bool			sync,
 	RegionPtr		clipBoxes,
-	pointer			data,
+	void*			data,
 	DrawablePtr		pDraw
 )
 {
@@ -1996,7 +1996,7 @@ SMI_DisplayVideo0730(
 }
 
 static void
-SMI_BlockHandler(ScreenPtr pScreen, pointer pTimeout)
+SMI_BlockHandler(ScreenPtr pScreen, void *pTimeout)
 {
     ScrnInfoPtr	pScrn	= xf86ScreenToScrn(pScreen);
     SMIPtr	pSmi    = SMIPTR(pScrn);
@@ -2287,7 +2287,7 @@ SMI_AllocSurface(
     surface->height = height;
     surface->pitches[0] = pitch;
     surface->offsets[0] = offset;
-    surface->devPrivate.ptr = (pointer) ptrOffscreen;
+    surface->devPrivate.ptr = ptrOffscreen;
 
     ptrOffscreen->surface_memory = surface_memory;
     ptrOffscreen->isOn = FALSE;
@@ -2428,7 +2428,7 @@ SMI_GetSurfaceAttribute(
     SMIPtr pSmi = SMIPTR(pScrn);
 
     return SMI_GetPortAttribute(pScrn, attr, value,
-			(pointer) pSmi->ptrAdaptor->pPortPrivates[0].ptr);
+                                pSmi->ptrAdaptor->pPortPrivates[0].ptr);
 }
 
 static int
@@ -2441,7 +2441,7 @@ SMI_SetSurfaceAttribute(
     SMIPtr pSmi = SMIPTR(pScrn);
 
     return SMI_SetPortAttribute(pScrn, attr, value,
-			(pointer) pSmi->ptrAdaptor->pPortPrivates[0].ptr);
+                                pSmi->ptrAdaptor->pPortPrivates[0].ptr);
 }
 
 static void
