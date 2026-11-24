@@ -82,6 +82,10 @@ authorization from the XFree86 Project and Silicon Motion.
 #define SMI_USE_CAPTURE		1
 #define SMI501_CLI_DEBUG	0
 
+#ifndef MIN
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#endif
+
 /*
  *   Leaving attempt implementation of an argb cursor using alpha plane
  * for the smi 501/502 under this ifdef for now. Maybe it will be fixed

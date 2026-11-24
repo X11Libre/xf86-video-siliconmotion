@@ -1391,8 +1391,8 @@ SMI_QueryBestSize(
 
     ENTER();
 
-    *p_w = min(drw_w, pSmi->lcdWidth);
-    *p_h = min(drw_h, pSmi->lcdHeight);
+    *p_w = MIN(drw_w, pSmi->lcdWidth);
+    *p_h = MIN(drw_h, pSmi->lcdHeight);
 
     LEAVE();
 }

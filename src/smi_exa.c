@@ -720,7 +720,7 @@ SMI730_Composite(PixmapPtr pDst, int srcX, int srcY, int maskX, int maskY,
         maxPixels = 1280 / pDst->drawable.bitsPerPixel;
 
     while(height>0){
-	SMI_Composite(pDst, srcX, srcY, maskX, maskY, dstX, dstY, width, min(height, maxPixels));
+	SMI_Composite(pDst, srcX, srcY, maskX, maskY, dstX, dstY, width, MIN(height, maxPixels));
 
 	srcY += maxPixels;
 	dstY += maxPixels;
