@@ -80,6 +80,7 @@ static void SMI_DetectMCLK(ScrnInfoPtr pScrn);
 #define SILICONMOTION_VERSION_MAJOR PACKAGE_VERSION_MAJOR
 #define SILICONMOTION_VERSION_MINOR PACKAGE_VERSION_MINOR
 #define SILICONMOTION_PATCHLEVEL    PACKAGE_VERSION_PATCHLEVEL
+#define SILICONMOTION_VERSION_SUFFIX PACKAGE_VERSION_SUFFIX
 #define SILICONMOTION_DRIVER_VERSION ((SILICONMOTION_VERSION_MAJOR << 24) | \
                                       (SILICONMOTION_VERSION_MINOR << 16) | \
                                       (SILICONMOTION_PATCHLEVEL))
@@ -210,6 +211,10 @@ _X_EXPORT XF86ModuleData siliconmotionModuleData =
     siliconmotionSetup,
     NULL
 };
+
+#ifdef XF86_MODULE_VERSION_SUFFIX
+XF86_MODULE_VERSION_SUFFIX(siliconmotion, SILICONMOTION_VERSION_SUFFIX);
+#endif
 
 static void*
 siliconmotionSetup(void *module, void *opts, int *errmaj, int *errmin)
