@@ -952,7 +952,7 @@ SMI_PutVideo(
     BoxRec dstBox;
     INT32 x1, y1, x2, y2;
     int norm;
-    int size, width, height, fbPitch;
+    int size, width, height;
     int top, left;
     xf86CrtcConfigPtr crtcConf = XF86_CRTC_CONFIG_PTR(pScrn);
     xf86CrtcPtr crtc;
@@ -1075,8 +1075,6 @@ SMI_PutVideo(
 
     if (pSmi->ByteSwap)
 	cpr00 |= 0x00004000;
-
-    fbPitch = (pScrn->displayWidth * pSmi->Bpp + 15) & ~15;
 
     if (vid_w <= drw_w) {
 	xscale = (256 * vid_w / drw_w) & 0xFF;
