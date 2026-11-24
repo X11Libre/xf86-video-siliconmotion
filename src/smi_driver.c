@@ -1315,7 +1315,7 @@ SMI_ProbeMem(ScrnInfoPtr pScrn, unsigned long mem_skip, unsigned long mem_max)
     ENTER();
 
     aperture_base = PCI_REGION_BASE(pSmi->PciInfo, 0, REGION_MEM) + mem_skip;
-    mem_max = min(mem_max , PCI_REGION_SIZE(pSmi->PciInfo, 0) - mem_skip);
+    mem_max = MIN(mem_max , PCI_REGION_SIZE(pSmi->PciInfo, 0) - mem_skip);
 
     if(pci_device_map_range(pSmi->PciInfo, aperture_base, mem_max,
 			    PCI_DEV_MAP_FLAG_WRITABLE, &mem))
